@@ -1,0 +1,527 @@
+wandb_version: 1
+
+run_name:
+  desc: null
+  value: OLMo-1B
+seed:
+  desc: null
+  value: 6198
+epoch:
+  desc: null
+  value: null
+dry_run:
+  desc: null
+  value: false
+model:
+  desc: null
+  value:
+    d_model: 2048
+    n_heads: 16
+    n_layers: 16
+    mlp_ratio: 8
+    mlp_hidden_size: null
+    activation_type: swiglu
+    block_type: sequential
+    block_group_size: 1
+    alibi: false
+    alibi_bias_max: 8.0
+    rope: true
+    rope_full_precision: true
+    flash_attention: false
+    attention_dropout: 0.0
+    multi_query_attention: false
+    attention_layer_norm: false
+    residual_dropout: 0.0
+    embedding_dropout: 0.0
+    layer_norm_type: default
+    layer_norm_with_affine: false
+    attention_layer_norm_with_affine: false
+    max_sequence_length: 2048
+    include_bias: false
+    bias_for_layer_norm: false
+    scale_logits: false
+    vocab_size: 50280
+    embedding_size: 50304
+    weight_tying: true
+    eos_token_id: 50279
+    pad_token_id: 1
+    init_device: meta
+    init_fn: mitchell
+    init_std: 0.02
+    init_cutoff_factor: null
+    precision: amp_bf16
+optimizer:
+  desc: null
+  value:
+    name: adamw
+    learning_rate: 0.0004
+    weight_decay: 0.1
+    betas:
+    - 0.9
+    - 0.95
+    no_decay_norm_and_bias: null
+    decay_norm_and_bias: false
+    decay_embeddings: false
+    metrics_log_interval: 10
+scheduler:
+  desc: null
+  value:
+    name: cosine_with_warmup
+    units: steps
+    t_warmup: 2000
+    t_max: null
+    alpha_f: 0.1
+    grad_clip_warmup_steps: null
+    grad_clip_warmup_factor: null
+data:
+  desc: null
+  value:
+    paths:
+    - https://olmo-data.org/preprocessed/olmo-mix/v1_5/gpt-neox-20b-pii-special/part-000-00000.npy
+    - https://olmo-data.org/preprocessed/olmo-mix/v1_5/gpt-neox-20b-pii-special/part-000-00001.npy
+    - https://olmo-data.org/preprocessed/olmo-mix/v1_5/gpt-neox-20b-pii-special/part-001-00000.npy
+    - https://olmo-data.org/preprocessed/olmo-mix/v1_5/gpt-neox-20b-pii-special/part-002-00000.npy
+    - https://olmo-data.org/preprocessed/olmo-mix/v1_5/gpt-neox-20b-pii-special/part-003-00000.npy
+    - https://olmo-data.org/preprocessed/olmo-mix/v1_5/gpt-neox-20b-pii-special/part-004-00000.npy
+    datasets: null
+    label_mask_paths: null
+    pad_direction: right
+    generate_attention_mask: false
+    num_workers: 0
+    drop_last: true
+    pin_memory: true
+    prefetch_factor: 16
+    persistent_workers: true
+    timeout: 0
+restore_dataloader:
+  desc: null
+  value: true
+fast_forward_batches:
+  desc: null
+  value: null
+evaluators:
+  desc: null
+  value:
+  - label: v3-small-ppl-validation
+    type: lm
+    data:
+      paths: null
+      datasets:
+        v3-small-c4_en-validation:
+        - https://olmo-data.org/eval-data/perplexity/v3_small_gptneox20b/c4_en/val/part-0-00000.npy
+        v3-small-dolma_books-validation:
+        - https://olmo-data.org/eval-data/perplexity/v3_small_gptneox20b/dolma_books/val/part-0-00000.npy
+        v3-small-dolma_common-crawl-validation:
+        - https://olmo-data.org/eval-data/perplexity/v3_small_gptneox20b/dolma_common-crawl/val/part-0-00000.npy
+        v3-small-dolma_pes2o-validation:
+        - https://olmo-data.org/eval-data/perplexity/v3_small_gptneox20b/dolma_pes2o/val/part-0-00000.npy
+        v3-small-dolma_reddit-validation:
+        - https://olmo-data.org/eval-data/perplexity/v3_small_gptneox20b/dolma_reddit/val/part-0-00000.npy
+        v3-small-dolma_stack-validation:
+        - https://olmo-data.org/eval-data/perplexity/v3_small_gptneox20b/dolma_stack/val/part-0-00000.npy
+        v3-small-dolma_wiki-validation:
+        - https://olmo-data.org/eval-data/perplexity/v3_small_gptneox20b/dolma_wiki/val/part-0-00000.npy
+        v3-small-ice-validation:
+        - https://olmo-data.org/eval-data/perplexity/v3_small_gptneox20b/ice/val/part-0-00000.npy
+        v3-small-m2d2_s2orc-validation:
+        - https://olmo-data.org/eval-data/perplexity/v3_small_gptneox20b/m2d2_s2orc/val/part-0-00000.npy
+        v3-small-pile-validation:
+        - https://olmo-data.org/eval-data/perplexity/v3_small_gptneox20b/pile/val/part-0-00000.npy
+        v3-small-wikitext_103-validation:
+        - https://olmo-data.org/eval-data/perplexity/v3_small_gptneox20b/wikitext_103/val/part-0-00000.npy
+      label_mask_paths: null
+      pad_direction: right
+      generate_attention_mask: false
+      num_workers: 0
+      drop_last: true
+      pin_memory: false
+      prefetch_factor: null
+      persistent_workers: false
+      timeout: 0
+    device_eval_batch_size: null
+    subset_num_batches: null
+  - label: v2-small-ppl-validation
+    type: lm
+    data:
+      paths: null
+      datasets:
+        v2-small-4chan-validation:
+        - https://olmo-data.org/eval-data/perplexity/v2_small_gptneox20b/4chan/val.npy
+        v2-small-c4_100_domains-validation:
+        - https://olmo-data.org/eval-data/perplexity/v2_small_gptneox20b/c4_100_domains/val.npy
+        v2-small-c4_en-validation:
+        - https://olmo-data.org/eval-data/perplexity/v2_small_gptneox20b/c4_en/val.npy
+        v2-small-gab-validation:
+        - https://olmo-data.org/eval-data/perplexity/v2_small_gptneox20b/gab/val.npy
+        v2-small-ice-validation:
+        - https://olmo-data.org/eval-data/perplexity/v2_small_gptneox20b/ice/val.npy
+        v2-small-m2d2_s2orc-validation:
+        - https://olmo-data.org/eval-data/perplexity/v2_small_gptneox20b/m2d2_s2orc/val.npy
+        v2-small-m2d2_wiki-validation:
+        - https://olmo-data.org/eval-data/perplexity/v2_small_gptneox20b/m2d2_wiki/val.npy
+        v2-small-manosphere-validation:
+        - https://olmo-data.org/eval-data/perplexity/v2_small_gptneox20b/manosphere/val.npy
+        v2-small-mc4_en-validation:
+        - https://olmo-data.org/eval-data/perplexity/v2_small_gptneox20b/mc4_en/val.npy
+        v2-small-pile-validation:
+        - https://olmo-data.org/eval-data/perplexity/v2_small_gptneox20b/pile/val.npy
+        v2-small-ptb-validation:
+        - https://olmo-data.org/eval-data/perplexity/v2_small_gptneox20b/ptb/val.npy
+        v2-small-twitterAEE-validation:
+        - https://olmo-data.org/eval-data/perplexity/v2_small_gptneox20b/twitterAEE/val.npy
+        v2-small-wikitext_103-validation:
+        - https://olmo-data.org/eval-data/perplexity/v2_small_gptneox20b/wikitext_103/val.npy
+      label_mask_paths: null
+      pad_direction: right
+      generate_attention_mask: false
+      num_workers: 0
+      drop_last: true
+      pin_memory: false
+      prefetch_factor: null
+      persistent_workers: false
+      timeout: 0
+    device_eval_batch_size: null
+    subset_num_batches: null
+  - label: piqa
+    type: downstream
+    data:
+      paths: null
+      datasets: null
+      label_mask_paths: null
+      pad_direction: right
+      generate_attention_mask: false
+      num_workers: 0
+      drop_last: false
+      pin_memory: false
+      prefetch_factor: null
+      persistent_workers: false
+      timeout: 0
+    device_eval_batch_size: null
+    subset_num_batches: null
+  - label: hellaswag
+    type: downstream
+    data:
+      paths: null
+      datasets: null
+      label_mask_paths: null
+      pad_direction: right
+      generate_attention_mask: false
+      num_workers: 0
+      drop_last: false
+      pin_memory: false
+      prefetch_factor: null
+      persistent_workers: false
+      timeout: 0
+    device_eval_batch_size: null
+    subset_num_batches: null
+  - label: winogrande
+    type: downstream
+    data:
+      paths: null
+      datasets: null
+      label_mask_paths: null
+      pad_direction: right
+      generate_attention_mask: false
+      num_workers: 0
+      drop_last: false
+      pin_memory: false
+      prefetch_factor: null
+      persistent_workers: false
+      timeout: 0
+    device_eval_batch_size: null
+    subset_num_batches: null
+  - label: openbook_qa
+    type: downstream
+    data:
+      paths: null
+      datasets: null
+      label_mask_paths: null
+      pad_direction: right
+      generate_attention_mask: false
+      num_workers: 0
+      drop_last: false
+      pin_memory: false
+      prefetch_factor: null
+      persistent_workers: false
+      timeout: 0
+    device_eval_batch_size: null
+    subset_num_batches: null
+  - label: sciq
+    type: downstream
+    data:
+      paths: null
+      datasets: null
+      label_mask_paths: null
+      pad_direction: right
+      generate_attention_mask: false
+      num_workers: 0
+      drop_last: false
+      pin_memory: false
+      prefetch_factor: null
+      persistent_workers: false
+      timeout: 0
+    device_eval_batch_size: null
+    subset_num_batches: null
+  - label: arc_easy
+    type: downstream
+    data:
+      paths: null
+      datasets: null
+      label_mask_paths: null
+      pad_direction: right
+      generate_attention_mask: false
+      num_workers: 0
+      drop_last: false
+      pin_memory: false
+      prefetch_factor: null
+      persistent_workers: false
+      timeout: 0
+    device_eval_batch_size: null
+    subset_num_batches: null
+  - label: copa
+    type: downstream
+    data:
+      paths: null
+      datasets: null
+      label_mask_paths: null
+      pad_direction: right
+      generate_attention_mask: false
+      num_workers: 0
+      drop_last: false
+      pin_memory: false
+      prefetch_factor: null
+      persistent_workers: false
+      timeout: 0
+    device_eval_batch_size: null
+    subset_num_batches: null
+  - label: rte
+    type: downstream
+    data:
+      paths: null
+      datasets: null
+      label_mask_paths: null
+      pad_direction: right
+      generate_attention_mask: false
+      num_workers: 0
+      drop_last: false
+      pin_memory: false
+      prefetch_factor: null
+      persistent_workers: false
+      timeout: 0
+    device_eval_batch_size: null
+    subset_num_batches: null
+  - label: commitment_bank
+    type: downstream
+    data:
+      paths: null
+      datasets: null
+      label_mask_paths: null
+      pad_direction: right
+      generate_attention_mask: false
+      num_workers: 0
+      drop_last: false
+      pin_memory: false
+      prefetch_factor: null
+      persistent_workers: false
+      timeout: 0
+    device_eval_batch_size: null
+    subset_num_batches: null
+  - label: mrpc
+    type: downstream
+    data:
+      paths: null
+      datasets: null
+      label_mask_paths: null
+      pad_direction: right
+      generate_attention_mask: false
+      num_workers: 0
+      drop_last: false
+      pin_memory: false
+      prefetch_factor: null
+      persistent_workers: false
+      timeout: 0
+    device_eval_batch_size: null
+    subset_num_batches: null
+  - label: sst2
+    type: downstream
+    data:
+      paths: null
+      datasets: null
+      label_mask_paths: null
+      pad_direction: right
+      generate_attention_mask: false
+      num_workers: 0
+      drop_last: false
+      pin_memory: false
+      prefetch_factor: null
+      persistent_workers: false
+      timeout: 0
+    device_eval_batch_size: null
+    subset_num_batches: null
+eval_interval:
+  desc: null
+  value: 1000
+tokenizer:
+  desc: null
+  value:
+    identifier: tokenizers/allenai_eleuther-ai-gpt-neox-20b-pii-special.json
+    truncate_direction: right
+save_folder:
+  desc: null
+  value: OLMo-1B
+remote_save_folder:
+  desc: null
+  value: null
+canceled_check_interval:
+  desc: null
+  value: 50
+save_interval:
+  desc: null
+  value: 1000
+save_interval_unsharded:
+  desc: null
+  value: 10000
+save_interval_ephemeral:
+  desc: null
+  value: null
+save_num_checkpoints_to_keep:
+  desc: null
+  value: 9
+save_num_unsharded_checkpoints_to_keep:
+  desc: null
+  value: -1
+save_overwrite:
+  desc: null
+  value: false
+force_save_unsharded:
+  desc: null
+  value: false
+no_pre_train_checkpoint:
+  desc: null
+  value: false
+load_path:
+  desc: null
+  value: null
+load_path_sharded_checkpointer:
+  desc: null
+  value: null
+reset_optimizer_state:
+  desc: null
+  value: false
+reset_trainer_state:
+  desc: null
+  value: false
+sharded_checkpointer:
+  desc: null
+  value: torch_legacy
+new_style_checkpoints:
+  desc: null
+  value: null
+max_duration:
+  desc: null
+  value: 739328
+global_train_batch_size:
+  desc: null
+  value: 2048
+device_train_batch_size:
+  desc: null
+  value: 256
+device_train_microbatch_size:
+  desc: null
+  value: 8
+device_eval_batch_size:
+  desc: null
+  value: 8
+eval_subset_num_batches:
+  desc: null
+  value: -1
+eval_on_load:
+  desc: null
+  value: false
+device_train_grad_accum:
+  desc: null
+  value: 32
+max_grad_norm:
+  desc: null
+  value: 1.0
+max_grad_norm_ratio:
+  desc: null
+  value: null
+precision:
+  desc: null
+  value: amp_bf16
+speed_monitor:
+  desc: null
+  value:
+    window_size: 20
+    gpu_flops_available: null
+console_log_interval:
+  desc: null
+  value: 1
+compile:
+  desc: null
+  value: null
+fsdp:
+  desc: null
+  value:
+    use_orig_params: true
+    sharding_strategy: ShardingStrategy.FULL_SHARD
+    wrapping_strategy: null
+    precision: mixed
+softmax_auxiliary_loss:
+  desc: null
+  value: false
+time_limit:
+  desc: null
+  value: 171000.0
+extra_steps_after_cancel:
+  desc: null
+  value: 10
+early_stopping_factor:
+  desc: null
+  value: null
+save_data_indices:
+  desc: null
+  value: true
+python_profiling:
+  desc: null
+  value: false
+torch_profiling:
+  desc: null
+  value: false
+stop_at:
+  desc: null
+  value: null
+activation_checkpointing:
+  desc: null
+  value: null
+_wandb:
+  desc: null
+  value:
+    python_version: 3.10.13
+    cli_version: 0.16.3
+    framework: huggingface
+    huggingface_version: 4.37.2
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    start_time: 1708652723.962208
+    t:
+      1:
+      - 1
+      - 5
+      - 11
+      - 49
+      - 51
+      - 53
+      - 55
+      3:
+      - 13
+      - 15
+      - 16
+      - 23
+      4: 3.10.13
+      5: 0.16.3
+      6: 4.37.2
+      8:
+      - 5
+      13: linux-x86_64

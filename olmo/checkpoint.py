@@ -34,7 +34,7 @@ from torch.distributed.fsdp.api import (
     ShardedOptimStateDictConfig,
     ShardedStateDictConfig,
 )
-from torch.distributed.fsdp.flat_param import FlatParamHandle
+#from torch.distributed.fsdp.flat_param import FlatParamHandle
 from torch.futures import Future
 
 from .aliases import PathOrStr
@@ -1115,7 +1115,7 @@ class LocalShardedCheckpointer(Checkpointer):
             torch.cuda.synchronize()
         _lazy_init(fsdp_model, fsdp_model)
 
-    def _fsdp_handles(self, fsdp_model: FSDP) -> List[FlatParamHandle]:
+    def _fsdp_handles(self, fsdp_model: FSDP) -> List:
         if version.parse(torch.__version__) < version.parse("2.1.0"):
             return fsdp_model._handles  # type: ignore
         elif version.parse(torch.__version__) < version.parse("2.2.0"):
